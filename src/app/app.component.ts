@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coins } from './models/coin.model';
 import { CoinsServiceService } from './services/coins-service.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 
 @Component({
@@ -23,9 +24,19 @@ export class AppComponent implements OnInit {
   
   public apiQuote: Observable<any>;
 
+  myFormGroup: FormGroup;
   
-  constructor(private http: HttpClient, private dropdownCoins: CoinsServiceService) {
+  constructor(
+    private http: HttpClient, 
+    private dropdownCoins: CoinsServiceService,
+    private formBuilder: FormBuilder
+    ) {
     this.apiQuote = <any>[];
+    this.myFormGroup = this.formBuilder.group({
+      validCoins:[this.moeda, Validators.required],
+      validInitDate:[this.initialDate, Validators.required],
+      validLastDate:[this.lastDate, Validators.required]
+    })
   }
   
   ngOnInit():void {
@@ -53,8 +64,8 @@ export class AppComponent implements OnInit {
     
     this.API = `https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@moeda=%27${this.moeda}%27&@dataInicial=%27${this.initialDate}%27&@dataFinalCotacao=%27${this.lastDate}%27&$top=1000&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao`;
 
-    if (!this.moeda || !this.initialDate || !this.lastDate) {
-      alert('Preencha todos os campos!');
+    if (!this.myFormGroup.valid) {
+      console.log('form inválido');
       return;
     }
 
@@ -62,6 +73,7 @@ export class AppComponent implements OnInit {
       alert('A data inicial não pode ser maior do que a data final!');
       return;
     }
+    
     this.apiQuote = this.http.get(this.API);
   }
 

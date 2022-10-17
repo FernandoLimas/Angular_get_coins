@@ -1,37 +1,3 @@
-h1 {
-    text-align: center;
+span {
+    font-size: 10px;
 }
-/* #headd{
-    text-align: left;
-    color: red;
-}
-
-#table {
-    border: 1px solid black;
-    padding: 0 20px;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-table td {
-    padding: 8px 3px;
-}
-
-table th {
-    padding: 10px 3px;
-}
-
-.lineCenter {
-    border-left: 1px solid #aaaaaa;
-    border-right: 1px solid #aaaaaa;
-}
-
-tr:nth-child(odd) {
-	background-color:#ffffff;
-}
-tr:nth-child(even) {
-	background-color:#cccccc;
-} */
